@@ -1,0 +1,37 @@
+# Copyright (c) 2026 Alessio Turchi (INAF - Osservatorio Astrofisico di Arcetri)
+# Based on the FRD IDL package and its Python port (frd_toolkit.py),
+# Copyright (c) Andrea Tozzi (INAF - Osservatorio Astrofisico di Arcetri)
+# SPDX-License-Identifier: GPL-3.0-or-later (see LICENSE)
+
+# Default configuration for the FRD analysis pipeline (frd_pipeline.py / frd_gui.py)
+
+paths:
+  input_dir: ""
+  pattern: "*.fits"        # glob pattern of the FITS files to analyse
+  output_dir: ""           # a timestamped subdirectory frd_YYYY-MM-DD_HH-MM-SS is created here
+  dark_file: ""            # optional; empty = no dark subtraction
+
+distances:
+  use_header: true         # use header distances only if the keyword is present in ALL files
+  header_key: FRD_DIST     # assumed in mm
+  step_mm: 25.0            # spacing used when header distances are not used
+  offset_mm: 0.0           # added to every distance -> absolute fibre-sensor distance L
+
+detector:
+  pix_size_mm: 0.0074
+
+pupil:
+  sogl: 0.3                # first threshold, fraction of the peak-to-valley range
+  s2_p2v: 0.02             # second threshold; null = mean of pixels above the first one
+
+frd_curve:
+  mode: pupil              # pupil | ccd (integration centre)
+  fn_max: 10.0             # largest output F/# analysed (smallest aperture)
+  n_points: 30
+  border_pix: 0.0
+  ee_levels: [0.5, 0.9, 0.95]
+
+plots:
+  format: html             # html | png (png requires kaleido)
+  pupils: true             # one plot per image with the fitted circle
+  pupil_bin: 4             # binning of pupil images in plots only (keeps files small)
